@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.home_item -> replaceFragment(HomeFragment())
                 R.id.favourites_item -> replaceFragment(FavouritesFragment())
                 R.id.settings_item -> replaceFragment(SettingsFragment())
-
             }
             true
         }

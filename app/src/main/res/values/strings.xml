@@ -3,4 +3,6 @@
     <string name="bottom_navigation_home_title">Home</string>
     <string name="bottom_navigation_favourites_title">Favourites</string>
     <string name="bottom_navigation_settings_title">Settings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
