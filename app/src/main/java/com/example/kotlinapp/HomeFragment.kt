@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeFragment : Fragment() {
@@ -18,7 +19,7 @@ class HomeFragment : Fragment() {
 
         val viewPager2 = view.findViewById<ViewPager2>(R.id.viewPager2)
         val tabLayout =
-            view.findViewById<com.google.android.material.tabs.TabLayout>(R.id.tabLayout)
+            view.findViewById<TabLayout>(R.id.tabLayout)
 
         val pages = listOf(
             Page(FirstFragment(), "Tab 1"),
