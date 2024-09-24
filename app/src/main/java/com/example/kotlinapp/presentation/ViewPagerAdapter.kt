@@ -1,8 +1,9 @@
-package com.example.kotlinapp
+package com.example.kotlinapp.presentation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.kotlinapp.data.Page
 
 
 class ViewPagerAdapter(fragmentActivity: FragmentActivity, private val pages: List<Page>) :

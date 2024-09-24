@@ -1,4 +1,4 @@
-package com.example.kotlinapp
+package com.example.kotlinapp.data
 
 import androidx.fragment.app.Fragment
 

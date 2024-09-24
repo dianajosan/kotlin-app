@@ -1,11 +1,10 @@
-package com.example.kotlinapp
+package com.example.kotlinapp.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
+import com.example.kotlinapp.R
 import com.example.kotlinapp.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
