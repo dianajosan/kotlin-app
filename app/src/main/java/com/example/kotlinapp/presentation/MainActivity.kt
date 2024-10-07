@@ -5,7 +5,10 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.kotlinapp.R
 import com.example.kotlinapp.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

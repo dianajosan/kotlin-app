@@ -10,8 +10,10 @@ import com.example.kotlinapp.data.Page
 import com.example.kotlinapp.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
-class HomeFragment : Fragment() {
+@AndroidEntryPoint
+open class HomeFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
