@@ -1,10 +1,10 @@
 package com.example.kotlinapp
 
-import com.example.kotlinapp.data.ApiResponse
-import retrofit2.Call
+import com.example.kotlinapp.data.Books
+import retrofit2.Response
 import retrofit2.http.GET
 
 interface ApiService {
     @GET("books")
-    fun getBooks(): Call<List<ApiResponse>>
+    suspend fun getBooks(): Response<List<Books>>
 }

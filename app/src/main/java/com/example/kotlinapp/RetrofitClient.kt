@@ -1,3 +1,4 @@
+import com.example.kotlinapp.ApiClient
 import com.example.kotlinapp.ApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,4 +16,6 @@ object RetrofitClient {
     val apiService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
+
+    val apiClient = ApiClient(apiService)
 }
