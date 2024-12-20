@@ -26,7 +26,7 @@ open class HomeFragment : Fragment() {
             view.findViewById<TabLayout>(R.id.tabLayout)
 
         val pages = listOf(
-            Page(FirstFragment(), "Tab 1"),
+            Page(FirstFragment(), "Books"),
             Page(SecondFragment(), "Tab 2"),
             Page(ThirdFragment(), "Tab 3")
         )
