@@ -9,11 +9,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlinapp.OnBookClickListener
 import com.example.kotlinapp.R
+import com.example.kotlinapp.data.Books
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FirstFragment : Fragment() {
+class FirstFragment : Fragment(), OnBookClickListener {
 
     private val viewModel: FirstFragmentViewModel by viewModels()
     private lateinit var booksAdapter: BooksAdapter
@@ -28,7 +31,7 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        booksAdapter = BooksAdapter()
+        booksAdapter = BooksAdapter(this)
         Log.d("DDD", "Adapter initialized: $booksAdapter")
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -40,16 +43,39 @@ class FirstFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.books.observe(viewLifecycleOwner) { response ->
             Log.d("DDD", "Observed response: $response")
-
-            if (response.isSuccessful) {
+            if (response != null) {
                 val booksList = response.body
                 Log.d("DDD", "Submitting books list to adapter: $booksList")
                 booksAdapter.submitList(booksList)
-            } else {
-                Log.e("DDD", "Error fetching books: ${response.exception}")
+            }
+        }
+
+        // Observe error LiveData
+        viewModel.errorEvent.observe(viewLifecycleOwner) { errorMessage ->
+            Log.e("DDD", "Observed error: $errorMessage")
+            if (errorMessage != null) {
+                // Show Snackbar with the error message
+                Snackbar.make(requireView(), errorMessage, Snackbar.LENGTH_LONG).show()
             }
         }
     }
 
-    // observe pt celalat eveniment
+    override fun onBookClick(book: Books) {
+        Log.d("DDD", "Clicked Book: id=${book.id}, title=${book.title}, author=${book.author}")
+
+        val bundle = Bundle().apply {
+            putInt("bookId", book.id)
+            putString("bookTitle", book.title)
+            putString("bookAuthor", book.author)
+        }
+
+        val detailsFragment = DetailsFragment().apply {
+            arguments = bundle
+        }
+        // Replace fragment transaction
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.first_fragment_container, detailsFragment)
+            .addToBackStack(null)
+            .commit()
+    }
 }

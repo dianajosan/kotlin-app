@@ -17,12 +17,13 @@ class FirstFragmentViewModel @Inject constructor(
     private val booksRepository: BooksRepository
 ) : ViewModel() {
 
-    // expose list as LiveData
+    // LiveData for exposing the books list
     private val _books = MutableLiveData<ApiResponse<List<Books>>>()
     val books: LiveData<ApiResponse<List<Books>>> get() = _books
 
-    // val ceva = LiveData<> pt evenimentele de error
-    // cand vine eroare, afisam in fragment un snackbar cu mesaj
+    // LiveData for error messages
+    private val _errorEvent = MutableLiveData<String>()
+    val errorEvent: LiveData<String> get() = _errorEvent
 
     init {
         fetchBooks()
@@ -32,9 +33,14 @@ class FirstFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             val response = booksRepository.getBooks()
             Log.d("DDD", "Response posted: $response")
-            _books.postValue(response)
-            Log.d("DDD", "Posting books response: $response")
-
+            if (response.isSuccessful) {
+                _books.postValue(response)
+                Log.d("DDD", "Posting books response: $response")
+            }
+            // Check if the response is an error
+            else {
+                _errorEvent.postValue("Error: ${response.exception?.message ?: "Unknown error"}")
+            }
         }
     }
 }

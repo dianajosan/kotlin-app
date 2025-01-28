@@ -3,17 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:padding="2dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/bookCardView"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#e5deca"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         card_view:cardCornerRadius="8dp"
         card_view:cardElevation="8dp"
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
+            android:id="@+id/bookItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
