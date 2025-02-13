@@ -43,4 +43,28 @@ class FirstFragmentViewModel @Inject constructor(
             }
         }
     }
+
+    // Toggle Favorite State
+    fun toggleFavorite(book: Books) {
+        viewModelScope.launch {
+            val isFavorite = booksRepository.isFavorite(book.id)
+            if (isFavorite) {
+                booksRepository.removeFromFavorites(book)
+                Log.e("DDD", "Removed from favorites: ${book.title}")
+            } else {
+                booksRepository.addToFavorites(book)
+                Log.e("DDD", "Added to favorites: ${book.title}")
+            }
+
+            // Log updated favorites list
+            Log.e("DDD", "Current favorites: ${booksRepository.getAllFavorites()}")
+        }
+    }
+
+    fun isFavorite(bookId: Int, callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val isFavorite = booksRepository.isFavorite(bookId)
+            callback(isFavorite) // Return the result to update UI
+        }
+    }
 }

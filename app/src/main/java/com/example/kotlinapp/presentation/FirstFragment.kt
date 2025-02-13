@@ -31,7 +31,7 @@ class FirstFragment : Fragment(), OnBookClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        booksAdapter = BooksAdapter(this)
+        booksAdapter = BooksAdapter(this, viewModel)
         Log.d("DDD", "Adapter initialized: $booksAdapter")
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -77,5 +77,16 @@ class FirstFragment : Fragment(), OnBookClickListener {
             .replace(R.id.first_fragment_container, detailsFragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onFavoriteClick(book: Books, isFavorite: Boolean) {
+        // Call the ViewModel to add/remove the book from favorites in Room
+        viewModel.toggleFavorite(book)
+
+        // Update the UI by manually toggling the button state (for real-time feedback)
+        val position = (booksAdapter.currentList.indexOf(book))
+        if (position != -1) {
+            booksAdapter.notifyItemChanged(position)  // Notify the adapter to update only this item
+        }
     }
 }

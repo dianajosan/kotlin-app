@@ -3,14 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF1828"
     tools:context=".presentation.FavouritesFragment">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Favourites"
-        android:textSize="16dp" />
+        android:layout_gravity="center|top"
+        android:padding="24dp"
+        android:text="Favourites books list"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFavorites"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="38dp"
+        tools:listitem="@layout/item_book" />
 
 </FrameLayout>

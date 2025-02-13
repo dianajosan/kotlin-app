@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
@@ -13,7 +14,10 @@ import com.example.kotlinapp.OnBookClickListener
 import com.example.kotlinapp.R
 import com.example.kotlinapp.data.Books
 
-class BooksAdapter(private val listener: OnBookClickListener) :
+class BooksAdapter(
+    private val listener: OnBookClickListener,
+    private val viewModel: FirstFragmentViewModel
+) :
     ListAdapter<Books, BooksAdapter.BooksViewHolder>(BooksDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BooksViewHolder {
@@ -25,18 +29,45 @@ class BooksAdapter(private val listener: OnBookClickListener) :
     override fun onBindViewHolder(holder: BooksViewHolder, position: Int) {
         val book = getItem(position)
         Log.d("DDD", "Binding book: $book")
-        holder.bind(book, listener)
+
+        // Check if the book is in the favorites list
+        viewModel.isFavorite(book.id) { isFavorite ->
+            holder.bind(book, listener, isFavorite)
+        }
     }
 
     class BooksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(book: Books, listener: OnBookClickListener) {
-            itemView.findViewById<TextView>(R.id.bookTitle).text = book.title
-            itemView.findViewById<TextView>(R.id.bookAuthor).text = book.author
-            itemView.findViewById<CardView>(R.id.bookCardView).setOnClickListener {
-                Log.e("DDD", "clicked on item $itemView")
-                listener.onBookClick(book)
+        private val bookTitle: TextView = itemView.findViewById(R.id.bookTitle)
+        private val bookAuthor: TextView = itemView.findViewById(R.id.bookAuthor)
+        private val bookCardView: CardView = itemView.findViewById(R.id.bookCardView)
+        private val favoritesButton: ImageButton = itemView.findViewById(R.id.favourites_button)
+
+        fun bind(
+            book: Books,
+            listener: OnBookClickListener,
+            isFavorite: Boolean
+        ) {
+            bookTitle.text = book.title
+            bookAuthor.text = book.author
+
+            // Handle card click
+            bookCardView.setOnClickListener {
                 Log.e("DDD", "clicked on item $book")
+                listener.onBookClick(book)
             }
+
+            // Set button state based on favorite status
+            updateFavoriteUI(isFavorite)
+
+            // Toggle favorite state when button is clicked
+            favoritesButton.setOnClickListener {
+                listener.onFavoriteClick(book, isFavorite)
+            }
+        }
+
+        private fun updateFavoriteUI(isFavorite: Boolean) {
+            favoritesButton.isSelected = isFavorite
+            favoritesButton.setImageResource(if (isFavorite) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline)
         }
     }
 
