@@ -44,6 +44,19 @@ class FirstFragmentViewModel @Inject constructor(
         }
     }
 
+    fun updateBook(book: Books, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val response = booksRepository.updateBook(book)
+            if (response.isSuccessful) {
+                Log.d("DDD", "Book updated successfully")
+                onResult(true)
+            } else {
+                Log.e("DDD", "Failed to update book: ${response.errorBody()?.string()}")
+                onResult(false)
+            }
+        }
+    }
+
     // Toggle Favorite State
     fun toggleFavorite(book: Books) {
         viewModelScope.launch {

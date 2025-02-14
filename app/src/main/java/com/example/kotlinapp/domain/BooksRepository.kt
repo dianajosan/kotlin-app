@@ -6,6 +6,7 @@ import com.example.kotlinapp.ApiService
 import com.example.kotlinapp.data.BooksDao
 import com.example.kotlinapp.data.ApiResponse
 import com.example.kotlinapp.data.Books
+import retrofit2.Response
 import javax.inject.Inject
 
 class BooksRepository @Inject constructor(
@@ -17,6 +18,11 @@ class BooksRepository @Inject constructor(
     suspend fun getBooks(): ApiResponse<List<Books>> {
         val response = apiClient.getBooks()
         Log.d("DDD", "Fetched books from API: : $response")
+        return response
+    }
+
+    suspend fun updateBook(book: Books): Response<Books> {
+        val response = apiService.updateBook(book.id, book)
         return response
     }
 

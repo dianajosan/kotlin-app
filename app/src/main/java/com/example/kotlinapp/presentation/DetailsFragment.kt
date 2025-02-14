@@ -10,18 +10,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import com.example.kotlinapp.ApiService
 import com.example.kotlinapp.R
 import com.example.kotlinapp.data.Books
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import retrofit2.Response
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
+
+    private val viewModel: FirstFragmentViewModel by viewModels()
 
     private var bookId: Int? = null
     private var originalTitle: String? = null
@@ -94,10 +94,9 @@ class DetailsFragment : Fragment() {
 
         val updatedBook = Books(id = bookId!!, title = updatedTitle, author = updatedAuthor)
 
-        // Send the PUT request to update the book
-        lifecycleScope.launch {
-            val response: Response<Books> = apiService.updateBook(updatedBook.id, updatedBook)
-            if (response.isSuccessful) {
+        // Call ViewModel to update the book
+        viewModel.updateBook(updatedBook) { success ->
+            if (success) {
                 Toast.makeText(requireContext(), "Book updated successfully!", Toast.LENGTH_SHORT)
                     .show()
 
